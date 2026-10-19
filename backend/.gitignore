@@ -1,0 +1,45 @@
+# ========================
+# Environment & Secrets
+# ========================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ========================
+# Node
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ========================
+# Build Output
+# ========================
+dist/
+build/
+
+# ========================
+# Test & Coverage
+# ========================
+coverage/
+.jest-cache/
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# OS & Editor
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
