@@ -1,5 +1,6 @@
 import { Pool, PoolClient, QueryResult, QueryResultRow } from 'pg';
 import { env } from './env';
+import { logger } from '../utils/logger';
 
 // NOTE: pg returns NUMERIC as string by default. Keep it that way.
 // Never convert money values to JS numbers/floats.
@@ -13,17 +14,17 @@ export const pool = new Pool({
 // An idle client failed. pg removes it from the pool automatically,
 // so we only log. Do NOT exit the process.
 pool.on('error', (err) => {
-  console.error('Unexpected PostgreSQL pool error:', err.message);
+  logger.error({ err }, 'Unexpected PostgreSQL pool error');
 });
 
 export async function connectPostgres(): Promise<void> {
   await pool.query('SELECT 1');
-  console.info('PostgreSQL connected');
+  logger.info('PostgreSQL connected');
 }
 
 export async function disconnectPostgres(): Promise<void> {
   await pool.end();
-  console.info('PostgreSQL pool closed');
+  logger.info('PostgreSQL pool closed');
 }
 
 export async function isPostgresHealthy(): Promise<boolean> {
@@ -35,9 +36,7 @@ export async function isPostgresHealthy(): Promise<boolean> {
   }
 }
 
-export async function withTransaction<T>(
-  callback: (client: PoolClient) => Promise<T>
-): Promise<T> {
+export async function withTransaction<T>(callback: (client: PoolClient) => Promise<T>): Promise<T> {
   const client = await pool.connect();
   let releaseError: Error | undefined;
   try {

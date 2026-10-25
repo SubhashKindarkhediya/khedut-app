@@ -1,21 +1,13 @@
-// =============================================================================
-// Application-wide constants
-// Imported everywhere instead of magic strings / numbers
-// =============================================================================
-
-// -----------------------------------------------------------------------------
-// HTTP Status Codes
-// -----------------------------------------------------------------------------
 export const HTTP_STATUS = {
-  // 2xx Success
+  // Success
   OK: 200,
   CREATED: 201,
   NO_CONTENT: 204,
 
-  // 3xx Redirection
+  // Redirection
   NOT_MODIFIED: 304,
 
-  // 4xx Client Errors
+  // Client errors
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
@@ -24,55 +16,182 @@ export const HTTP_STATUS = {
   UNPROCESSABLE_ENTITY: 422,
   TOO_MANY_REQUESTS: 429,
 
-  // 5xx Server Errors
+  // Server errors
   INTERNAL_SERVER_ERROR: 500,
   SERVICE_UNAVAILABLE: 503,
 } as const;
 
 export type HttpStatus = (typeof HTTP_STATUS)[keyof typeof HTTP_STATUS];
 
-// -----------------------------------------------------------------------------
-// User Roles
-// -----------------------------------------------------------------------------
-export enum UserRole {
-  FARMER = 'farmer',
-  PARTNER = 'partner',
-  ADMIN = 'admin',
-}
+export const API_PREFIX = '/api/v1' as const;
 
-// -----------------------------------------------------------------------------
-// Currency
-// -----------------------------------------------------------------------------
-export const DEFAULT_CURRENCY = 'INR' as const;
-export type CurrencyCode = 'INR';
-
-// -----------------------------------------------------------------------------
-// Pagination Defaults
-// -----------------------------------------------------------------------------
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
-  DEFAULT_LIMIT: 20,
+  DEFAULT_LIMIT: 10,
   MAX_LIMIT: 100,
 } as const;
 
-// -----------------------------------------------------------------------------
-// Soft-Delete
-// All tables use deleted_at (null = active, timestamp = deleted)
-// -----------------------------------------------------------------------------
-export const SOFT_DELETE_COLUMN = 'deleted_at' as const;
-
-// -----------------------------------------------------------------------------
-// Supported Locales
-// -----------------------------------------------------------------------------
-export enum Locale {
-  EN = 'en',
-  GU = 'gu',
-  HI = 'hi',
+export enum SORT_ORDER {
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 
-export const DEFAULT_LOCALE = Locale.EN;
+export enum LANGUAGE {
+  GUJARATI = 'gu',
+  HINDI = 'hi',
+  ENGLISH = 'en',
+}
 
-// -----------------------------------------------------------------------------
-// API Version Prefix
-// -----------------------------------------------------------------------------
-export const API_PREFIX = '/api/v1' as const;
+export enum CURRENCY {
+  INR = 'INR',
+}
+
+export const DEFAULT_LANGUAGE = LANGUAGE.GUJARATI;
+export const DEFAULT_CURRENCY = CURRENCY.INR;
+
+export enum USER_STATUS {
+  ACTIVE = 'ACTIVE',
+  BLOCKED = 'BLOCKED',
+  DELETED = 'DELETED',
+}
+
+export enum PLATFORM_ROLE {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}
+
+export enum OTP_PURPOSE {
+  LOGIN = 'LOGIN',
+}
+
+export enum TOKEN_TYPE {
+  ACCESS_TOKEN = 'ACCESS_TOKEN',
+  REFRESH_TOKEN = 'REFRESH_TOKEN',
+}
+
+export enum SMS_PROVIDER {
+  CONSOLE = 'CONSOLE',
+  MSG91 = 'MSG91',
+}
+
+export const AUTH_SETTINGS = {
+  OTP_LENGTH: 6,
+  OTP_EXPIRY_MINUTES: 5,
+  OTP_RESEND_COOLDOWN_SECONDS: 60,
+  OTP_MAX_ATTEMPTS: 5,
+} as const;
+
+export const OTP_EXPIRY_MS = AUTH_SETTINGS.OTP_EXPIRY_MINUTES * 60 * 1000;
+
+export enum FARM_STATUS {
+  ACTIVE = 'ACTIVE',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum FARM_MEMBER_ROLE {
+  OWNER = 'OWNER',
+  PARTNER = 'PARTNER',
+  MANAGER = 'MANAGER',
+  VIEWER = 'VIEWER',
+}
+
+export enum FARM_MEMBER_STATUS {
+  ACTIVE = 'ACTIVE',
+  REMOVED = 'REMOVED',
+  LEFT = 'LEFT',
+}
+
+export enum INVITATION_STATUS {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum LAND_UNIT {
+  BIGHA = 'BIGHA',
+  GUNTHA = 'GUNTHA',
+  ACRE = 'ACRE',
+  HECTARE = 'HECTARE',
+}
+
+export enum SEASON_TYPE {
+  KHARIF = 'KHARIF',
+  RABI = 'RABI',
+  ZAID = 'ZAID',
+  CUSTOM = 'CUSTOM',
+}
+
+export enum CROP_SEASON_STATUS {
+  PLANNED = 'PLANNED',
+  RUNNING = 'RUNNING',
+  HARVESTED = 'HARVESTED',
+  CLOSED = 'CLOSED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum TRANSACTION_TYPE {
+  INCOME = 'INCOME',
+  EXPENSE = 'EXPENSE',
+}
+
+export enum TRANSACTION_STATUS {
+  POSTED = 'POSTED',
+  REVERSED = 'REVERSED',
+}
+
+export enum PAYMENT_MODE {
+  CASH = 'CASH',
+  UPI = 'UPI',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  CHEQUE = 'CHEQUE',
+  OTHER = 'OTHER',
+}
+
+export enum PAYMENT_STATUS {
+  PAID = 'PAID',
+  PENDING = 'PENDING',
+  PARTIAL = 'PARTIAL',
+}
+
+export enum ENTRY_SOURCE {
+  MANUAL = 'MANUAL',
+  AI_DRAFT = 'AI_DRAFT',
+  VOICE = 'VOICE',
+  IMPORT = 'IMPORT',
+}
+
+export enum SETTLEMENT_STATUS {
+  DRAFT = 'DRAFT',
+  PENDING_CONFIRMATION = 'PENDING_CONFIRMATION',
+  CONFIRMED = 'CONFIRMED',
+  DISPUTED = 'DISPUTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum SETTLEMENT_CONFIRMATION_STATUS {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  REJECTED = 'REJECTED',
+}
+
+export enum SHARING_BASIS {
+  PROFIT_PERCENTAGE = 'PROFIT_PERCENTAGE',
+  FIXED_AMOUNT = 'FIXED_AMOUNT',
+  EXPENSE_SPLIT = 'EXPENSE_SPLIT',
+}
+
+// AI (MongoDB features)  // REVIEW at module start
+export enum AI_DRAFT_STATUS {
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  CONFIRMED = 'CONFIRMED',
+  REJECTED = 'REJECTED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum AI_MESSAGE_ROLE {
+  USER = 'USER',
+  ASSISTANT = 'ASSISTANT',
+  SYSTEM = 'SYSTEM',
+}

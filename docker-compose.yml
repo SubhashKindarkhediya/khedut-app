@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: khedut_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: khedut_user
+      POSTGRES_PASSWORD: khedut_pass
+      POSTGRES_DB: khedut_db
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U khedut_user -d khedut_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  mongo:
+    image: mongo:7
+    container_name: khedut_mongo
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:
+  mongo_data:

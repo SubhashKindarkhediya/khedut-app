@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { env } from './env';
+import { logger } from '../utils/logger';
 
 // ---------------------------------------------------------------------------
 // Connect — called once on server startup
@@ -10,7 +11,7 @@ export async function connectMongoDB(): Promise<void> {
     serverSelectionTimeoutMS: 5_000,
     socketTimeoutMS: 45_000,
   });
-  console.info('✅ MongoDB connected');
+  logger.info('MongoDB connected');
 }
 
 // ---------------------------------------------------------------------------
@@ -18,7 +19,7 @@ export async function connectMongoDB(): Promise<void> {
 // ---------------------------------------------------------------------------
 export async function disconnectMongoDB(): Promise<void> {
   await mongoose.disconnect();
-  console.info('🔌 MongoDB connection closed');
+  logger.info('MongoDB connection closed');
 }
 
 // ---------------------------------------------------------------------------
